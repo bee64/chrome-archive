@@ -11,3 +11,6 @@ A Chrome extension to help you manage your tabs!
 * Remove individual tab from an existing entry
 * Save all open tabs across all windows in a new archive
 * Remove `<all_urls>` and `declarativeContent`?
+
+## Publishing
+Run `npm run build` and upload the `dist` folder.
