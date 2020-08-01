@@ -10,6 +10,4 @@ A Chrome extension to help you manage your tabs!
 * Add individual tab to existing entries
 * Remove individual tab from an existing entry
 * Save all open tabs across all windows in a new archive
-
-
 * Remove `<all_urls>` and `declarativeContent`?
