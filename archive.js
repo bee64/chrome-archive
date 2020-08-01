@@ -64,6 +64,7 @@ function loadArchives () {
     getArchiveIds().forEach((id) => {
         var archive = getArchiveById(id);
         // add the archive to the dom
+        // TODO define parameters
     });
 }
 
