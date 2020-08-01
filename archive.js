@@ -1,7 +1,6 @@
 const { v4: uuidv4 } = require('uuid');
 
 var ARCHIVE_ID_LIST_KEY = 'archive-id-list';
-var ARCHIVE_KEY_ROOT = 'archive-list-item-';
 
 // Query for the tabs on the current window, and save the resulting list
 function onSaveArchiveClick () {
@@ -14,25 +13,38 @@ function onSaveArchiveClick () {
 function saveTabList (tabList) {
     // Get the name of the archive from an input?
     var newArchiveName = getNewArchiveName();
-    createArchive(newArchiveName, tabList);
-    addArchiveToDom();
+    var archive = createArchive(newArchiveName, tabList);
+    saveArchive(archive);
+    addArchiveToDom(archive);
 }
 
 function getNewArchiveName () {
     // TODO sanitize this a bit
-    return document.getElementById('archive-name').textContent;
+    return document.getElementById('archive-name').value;
 }
 
 function getArchiveIds () {
-    return localStorage.getItem(ARCHIVE_ID_LIST_KEY) || [];
+    var rawIds = localStorage.getItem(ARCHIVE_ID_LIST_KEY);
+    return rawIds ? JSON.parse(rawIds) : [];
 }
 
 function setArchiveIds(ids) {
-    localStorage.setItem(ARCHIVE_ID_LIST_KEY, ids);
+    localStorage.setItem(ARCHIVE_ID_LIST_KEY, JSON.stringify(ids));
 }
 
 function getArchiveById (id) {
-    localStorage.getItem(ARCHIVE_KEY_ROOT + id);
+    return JSON.parse(localStorage.getItem(id));
+}
+
+function saveArchive(archive) {
+    localStorage.setItem(archive.id, JSON.stringify(archive));
+    addIdToList(archive.id);
+}
+
+function addIdToList (id) {
+    var ids = getArchiveIds();
+    ids.push(id);
+    setArchiveIds(ids);
 }
 
 function createArchive (name, tabList) {
@@ -48,34 +60,56 @@ function createArchive (name, tabList) {
             // Tab names can be empty, but it's unuseable without a url
             return tab.url !== '';
         });
-    console.log(tabs)
-    var id = getUniqueId();
-    var archive = {
+    return {
+        id: uuidv4(),
         name: name,
         tabs: tabs
     };
-    // localStorage.set(id, archive);
-    // update archiveIds
-}
-
-function getUniqueId () {
-    // return a unique id
-    return uuidv4();
 }
 
 function loadArchives () {
     getArchiveIds().forEach((id) => {
         var archive = getArchiveById(id);
-        // add the archive to the dom
-        // TODO define parameters
+        addArchiveToDom(archive);
     });
 }
 
-function addArchiveToDom () {
+/**
+ * Archive block should look like this
+ * <div>
+ *  <div>
+ *      <h2>archive.name</h2>
+ *      <p>n items</p>
+ *  </div>
+ *  <div>
+ *      <Actions go here>
+ *  </div>
+ * </div>
+ */
+/**
+ * archive {
+ *  id
+ *  name
+ *  tabs []
+ *     name
+ *     url 
+ * }
+ * 
+ */
+function addArchiveToDom (archive) {
     var archiveListItem = document.createElement('div');
 
-    // TODO this
-    archiveListItem.appendChild(document.createTextNode('a dom item'));
+    var archiveInfo = document.createElement('div');
+    var header = document.createElement('h2');
+    header.appendChild(document.createTextNode(archive.name));
+    var numItems = document.createElement('p');
+    numItems.appendChild(document.createTextNode(archive.tabs.length + ' tabs'));
+    archiveInfo.appendChild(header);
+    archiveInfo.appendChild(numItems);
+
+    archiveListItem.appendChild(archiveInfo);
+
+    // TODO Add the controls
 
     getListRootElement().appendChild(archiveListItem);
 }

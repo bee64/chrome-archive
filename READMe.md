@@ -7,6 +7,7 @@ A Chrome extension to help you manage your tabs!
 * Delete an archive
 
 ## TODO
+* Minify the build output
 * Add individual tab to existing entries
 * Remove individual tab from an existing entry
 * Save all open tabs across all windows in a new archive
