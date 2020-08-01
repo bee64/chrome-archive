@@ -1,3 +1,5 @@
+const { v4: uuidv4 } = require('uuid');
+
 var ARCHIVE_ID_LIST_KEY = 'archive-id-list';
 var ARCHIVE_KEY_ROOT = 'archive-list-item-';
 
@@ -58,6 +60,7 @@ function createArchive (name, tabList) {
 
 function getUniqueId () {
     // return a unique id
+    return uuidv4();
 }
 
 function loadArchives () {
@@ -91,7 +94,6 @@ function getListRootElement () {
 }
 
 document.addEventListener("DOMContentLoaded", () => {
-    initializeLocalStorage();
     loadArchives();
     addEventListeners();
 });

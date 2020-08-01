@@ -1,0 +1,20 @@
+{
+  "name": "archive",
+  "version": "1.0.0",
+  "description": "chrome tab archiver",
+  "scripts": {
+    "build": "browserify archive.js -o dist/archive.browserify.js && copyfiles ./icons/* manifest.json archive.css popup.html ./dist"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Brad--/chrome-archive.git"
+  },
+  "license": "ISC",
+  "devDependencies": {
+    "browserify": "^16.5.1",
+    "copyfiles": "^2.3.0"
+  },
+  "dependencies": {
+    "uuid": "^8.3.0"
+  }
+}

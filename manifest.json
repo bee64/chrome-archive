@@ -9,13 +9,14 @@
         {
             "matches": ["<all_urls>"],
             "css": ["archive.css"],
-            "js": ["archive.js"]
+            "js": ["archive.browserify.js"]
         }
     ],
     "browser_action": {
         "default_title": "Does a thing",
         "default_popup": "popup.html",
         "default_icon": {
+            "16": "icons/leek16.ico",
             "32": "icons/leek32.ico"
         }
     }
