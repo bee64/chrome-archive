@@ -3,7 +3,7 @@ const { v4: uuidv4 } = require('uuid');
 var ARCHIVE_ID_LIST_KEY = 'archive-id-list';
 
 // Query for the tabs on the current window, and save the resulting list
-function onSaveArchiveClick () {
+function onSaveArchive () {
     var queryInfo = {
         currentWindow: true
     }
@@ -153,12 +153,19 @@ function createTabs (windowId, urls) {
 }
 
 function addEventListeners() {
-    addSaveArchiveListener();
+    addSaveArchiveListeners();
 }
 
-function addSaveArchiveListener() {
+function addSaveArchiveListeners() {
     var button = document.getElementById('archive-button');
-    button.addEventListener('click', onSaveArchiveClick);
+    button.addEventListener('click', onSaveArchive);
+
+    var input = document.getElementById('archive-name');
+    input.addEventListener('keypress', (e) => {
+        if (e.key === 'Enter') {
+            onSaveArchive();
+        }
+    });
 }
 
 function getListRootElement () {
