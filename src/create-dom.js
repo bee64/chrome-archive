@@ -1,3 +1,5 @@
+var chromeUtils = require('./chrome-utils');
+
 /**
  * Archive block should look like this
  * <div>
@@ -20,7 +22,7 @@
  * }
  * 
  */
-const addArchiveToDom = (archive, isEven, createTabs) => {
+const addArchiveToDom = (archive, isEven) => {
     var archiveListItem = document.createElement('div');
     archiveListItem.classList.add('archiveListItem');
 
@@ -38,7 +40,7 @@ const addArchiveToDom = (archive, isEven, createTabs) => {
     headerLink.appendChild(document.createTextNode(archive.name));
     header.appendChild(headerLink);
     header.addEventListener('click', () => {
-        createTabs(archive.id);
+        chromeUtils.createTabsInNewWindow(archive.id);
     });
 
     var numItems = document.createElement('p');
