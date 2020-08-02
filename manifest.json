@@ -4,7 +4,7 @@
     "version": "0.0.2",
     "description": "A chrome tab management extension",
     "short_name": "Archive",
-    "permissions": ["<all_urls>", "declarativeContent", "storage"],
+    "permissions": ["storage", "tabs"],
     "content_scripts": [
         {
             "matches": ["<all_urls>"],

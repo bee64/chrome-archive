@@ -100,18 +100,48 @@ function addArchiveToDom (archive) {
     var archiveListItem = document.createElement('div');
 
     var archiveInfo = document.createElement('div');
+
     var header = document.createElement('h2');
     header.appendChild(document.createTextNode(archive.name));
+    header.addEventListener('click', () => {
+        createTabsInNewWindow(archive.id);
+    });
+
     var numItems = document.createElement('p');
     numItems.appendChild(document.createTextNode(archive.tabs.length + ' tabs'));
+
     archiveInfo.appendChild(header);
     archiveInfo.appendChild(numItems);
 
     archiveListItem.appendChild(archiveInfo);
 
     // TODO Add the controls
+    // TODO should the header be clickable? Probably
 
     getListRootElement().appendChild(archiveListItem);
+}
+
+function createTabsInNewWindow (archiveId) {
+    var windowOptions = {
+        focused: true
+    };
+    chrome.windows.create(windowOptions, (window) => {
+        createTabs(window.id, archiveId);
+    });
+}
+
+function createTabs (windowId, archiveId) {
+    var archive = getArchiveById(archiveId);
+    var urls = archive.tabs.map((tab) => {
+        return tab.url;
+    });
+    urls.forEach((url) => {
+        var tabOptions = {
+            url: url,
+            windowId: windowId
+        };
+        chrome.tabs.create(tabOptions);
+    });
 }
 
 function addEventListeners() {
