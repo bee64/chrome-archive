@@ -3,7 +3,9 @@
   "version": "1.0.0",
   "description": "chrome tab archiver",
   "scripts": {
-    "build": "browserify archive.js -o dist/archive.browserify.js && copyfiles ./icons/* manifest.json archive.css popup.html ./dist"
+    "build": "npm run build:js && npm run copy",
+    "build:js": "browserify archive.js -o dist/archive.browserify.js",
+    "copy": "copyfiles ./icons/* manifest.json archive.css reset.css popup.html ./dist"
   },
   "repository": {
     "type": "git",

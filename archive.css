@@ -1,0 +1,14 @@
+@import url('https://fonts.googleapis.com/css2?family=Raleway:wght@400;700&display=swap');
+@import url('./reset.css');
+
+.title-bar {
+    padding: 5px 20px;
+    background-color: #B191FF;
+}
+
+.title {
+    font-family: 'Raleway', sans-serif;
+    font-weight: bold;
+    font-size: 37px;
+    color: #fff;
+}

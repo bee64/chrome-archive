@@ -102,7 +102,10 @@ function addArchiveToDom (archive) {
     var archiveInfo = document.createElement('div');
 
     var header = document.createElement('h2');
-    header.appendChild(document.createTextNode(archive.name));
+    var headerLink = document.createElement('a');
+    headerLink.href = '#';
+    headerLink.appendChild(document.createTextNode(archive.name));
+    header.appendChild(headerLink);
     header.addEventListener('click', () => {
         createTabsInNewWindow(archive.id);
     });
