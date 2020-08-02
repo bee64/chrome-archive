@@ -14,12 +14,16 @@ function saveTabList (tabList) {
     // Get the name of the archive from an input?
     var newArchiveName = getNewArchiveName();
     var archive = createArchive(newArchiveName, tabList);
+    var numArchives = getArchiveIds().length;
+    var isNextEven = numArchives === 0 || numArchives % 2 === 0;
     saveArchive(archive);
-    addArchiveToDom(archive);
+    // TODO delete button
+    //      Should the delete button say "are you sure" or something?
+    //      If I can do the "are you sure" popup I can probably do the "show you a list and let you remove individual items"
+    addArchiveToDom(archive, isNextEven);
 }
 
 function getNewArchiveName () {
-    // TODO sanitize this a bit
     return document.getElementById('archive-name').value;
 }
 
@@ -68,9 +72,10 @@ function createArchive (name, tabList) {
 }
 
 function loadArchives () {
-    getArchiveIds().forEach((id) => {
+    getArchiveIds().forEach((id, index) => {
+        var isEven = index % 2 === 0;
         var archive = getArchiveById(id);
-        addArchiveToDom(archive);
+        addArchiveToDom(archive, isEven);
     });
 }
 
@@ -96,12 +101,19 @@ function loadArchives () {
  * }
  * 
  */
-function addArchiveToDom (archive) {
+function addArchiveToDom (archive, isEven) {
     var archiveListItem = document.createElement('div');
+    archiveListItem.classList.add('archiveListItem');
+
+    if (isEven) {
+        archiveListItem.classList.add('even');
+    }
 
     var archiveInfo = document.createElement('div');
+    archiveInfo.classList.add('archiveInfo');
 
     var header = document.createElement('h2');
+    header.classList.add('archiveListItem--header');
     var headerLink = document.createElement('a');
     headerLink.href = '#';
     headerLink.appendChild(document.createTextNode(archive.name));
@@ -111,7 +123,10 @@ function addArchiveToDom (archive) {
     });
 
     var numItems = document.createElement('p');
-    numItems.appendChild(document.createTextNode(archive.tabs.length + ' tabs'));
+    numItems.classList.add('archiveListItem--item-count');
+    numItems.appendChild(document.createTextNode(archive.tabs.length + ' Tabs'));
+    var titlesString = getTitlesString(archive);
+    numItems.title = titlesString;
 
     archiveInfo.appendChild(header);
     archiveInfo.appendChild(numItems);
@@ -119,9 +134,35 @@ function addArchiveToDom (archive) {
     archiveListItem.appendChild(archiveInfo);
 
     // TODO Add the controls
-    // TODO should the header be clickable? Probably
 
     getListRootElement().appendChild(archiveListItem);
+}
+
+function getTitlesString (archive) {
+    var titles = archive.tabs.map((tab) => {
+        return tab.name;
+    });
+    var maxNumberOfTitles = 3;
+    var titlesString = 'Includes: ';
+
+    if (titles.length === 1) {
+        titlesString += titles[0] + '.';
+    } else {
+        for (var i = 0; i < maxNumberOfTitles && i < titles.length; i++) {
+            // if it's the last title
+            if (i == titles.length - 1) {
+                titlesString += 'and ' + titles[i];
+            }
+            // if it's the last to display, but there are more
+            else if (i == maxNumberOfTitles - 1) {
+                var titlesNotDisplayed = titles.length - maxNumberOfTitles;
+                titlesString += titles[i] + ', and ' + titlesNotDisplayed + ' more tabs.';
+            } else {
+                titlesString += titles[i] + ', ';
+            }
+        }
+    }
+    return titlesString;
 }
 
 function createTabsInNewWindow (archiveId) {

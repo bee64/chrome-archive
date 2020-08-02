@@ -6,22 +6,27 @@
 }
 
 .title-bar {
-    padding: .75em 1.15em;
+    padding: .75em .65em;
     background-color: #B191FF;
+}
+
+.title-bar, .name-container button {
+    box-shadow: 0px 1px 4px #999;
 }
 
 .title {
     font-family: 'Raleway', sans-serif;
     font-weight: bold;
-    font-size: 37px;
+    font-size: 28px;
     color: #fff;
 }
 
 .name-container {
     white-space: nowrap;
     padding-right: 8em;
-    padding-left: 1.15em;
-    padding-top: .75em;
+    padding-left: .65em;
+    padding-top: .5em;
+    padding-bottom: .75em;
 }
 
 .name-container input, .name-container button {
@@ -34,7 +39,6 @@
     border-top: none;
     border-right: none;
     border-left: none;
-    border-color: #333;
     padding: .2em 0em;
 
     width: 100%;
@@ -42,15 +46,49 @@
 
 .name-container input:focus {
     outline-color: #B191FF;
+    border-radius: 20px;
+    border-bottom: none;
 }
 
 .name-container button {
     border-radius: 8px;
-    padding: .2em .75em;
+    padding: .13em .75em;
 
     font-weight: bold;
 
     background-color: #B191FF;
     border-color: transparent;
     color: #fff;
+}
+
+.archiveListItem {
+    padding: .5em .65em;
+}
+
+.archiveListItem.even {
+    background-color: #eee;
+    box-shadow: 0px 0px 4px #999;
+}
+
+.archiveInfo {
+    font-family: 'Raleway', sans-serif;
+    font-size: 21px;
+}
+
+.archiveListItem--header {
+    line-height: 1.5em;
+    font-weight: bold;
+}
+
+.archiveListItem--header a {
+    color: #333;
+}
+
+.archiveListItem--header a:active {
+    color: #B191FF;
+}
+
+.archiveListItem--item-count {
+    color: #333;
+    font-size: 12px;
 }
