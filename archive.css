@@ -1,27 +1,27 @@
 @import url('https://fonts.googleapis.com/css2?family=Raleway:wght@400;700&display=swap');
 @import url('./reset.css');
 
-.app-body {
+.archive-app-body {
     width: 18em;
 }
 
-.title-bar {
+.archive-title-bar {
     padding: .75em .65em;
     background-color: #B191FF;
 }
 
-.title-bar, .name-container button {
+.archive-title-bar, .archive-name-container button {
     box-shadow: 0px 1px 4px #999;
 }
 
-.title {
+.archive-title {
     font-family: 'Raleway', sans-serif;
     font-weight: bold;
     font-size: 28px;
     color: #fff;
 }
 
-.name-container {
+.archive-name-container {
     white-space: nowrap;
     padding-right: 8em;
     padding-left: .65em;
@@ -29,13 +29,13 @@
     padding-bottom: .75em;
 }
 
-.name-container input, .name-container button {
+.archive-name-container input, .archive-name-container button {
     line-height: 1.5em;
     font-family: 'Raleway', sans-serif;
     font-size: 16px;
 }
 
-.name-container input {
+.archive-name-container input {
     border-top: none;
     border-right: none;
     border-left: none;
@@ -44,14 +44,13 @@
     width: 100%;
 }
 
-.name-container input:focus {
+.archive-name-container input:focus {
     outline-color: #B191FF;
     border-radius: 20px;
     border-bottom: none;
 }
 
-/* .name-container button { */
-button {
+.archive-btn {
     border-radius: 8px;
     padding: .13em .75em;
 
