@@ -24,6 +24,7 @@ var storage = require('./storage');
  * 
  */
 const addArchiveToDom = (archive, isEven) => {
+    // Create list item element
     var archiveListItem = document.createElement('div');
     archiveListItem.classList.add('archive-list-item');
     archiveListItem.id = archive.id;
@@ -35,6 +36,7 @@ const addArchiveToDom = (archive, isEven) => {
     var archiveInfo = document.createElement('div');
     archiveInfo.classList.add('archiveInfo');
 
+    // Create header element
     var header = document.createElement('h2');
     header.classList.add('archive-list-item--header');
     var headerLink = document.createElement('a');
@@ -46,6 +48,7 @@ const addArchiveToDom = (archive, isEven) => {
         chromeUtils.createTabsInNewWindow(archive.id);
     });
 
+    // Create number of items element
     var numItems = document.createElement('p');
     numItems.classList.add('archive-list-item--item-count');
     numItems.appendChild(document.createTextNode(archive.tabs.length + ' Tabs'));
@@ -57,9 +60,11 @@ const addArchiveToDom = (archive, isEven) => {
 
     archiveListItem.appendChild(archiveInfo);
 
+    // Create actions group element
     var archiveActions = document.createElement('div');
     archiveActions.classList.add('archive-list-item--archive-actions');
 
+    // Create delete button element
     var deleteButton = document.createElement('div');
     deleteButton.innerHTML = '<svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-trash" width="28" height="28" viewBox="0 0 24 24" stroke-width="1.5" stroke="#B191FF" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z"/><line x1="4" y1="7" x2="20" y2="7" /><line x1="10" y1="11" x2="10" y2="17" /><line x1="14" y1="11" x2="14" y2="17" /><path d="M5 7l1 12a2 2 0 0 0 2 2h8a2 2 0 0 0 2 -2l1 -12" /><path d="M9 7v-3a1 1 0 0 1 1 -1h4a1 1 0 0 1 1 1v3" /></svg>';
     deleteButton.addEventListener('click', () => {
