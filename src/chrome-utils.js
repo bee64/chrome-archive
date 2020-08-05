@@ -1,5 +1,12 @@
 var storage = require('./storage');
 
+const saveTabsInCurrentWindow = () => {
+    var queryInfo = {
+        currentWindow: true
+    }
+    chrome.tabs.query(queryInfo, storage.saveTabList);
+}
+
 const createTabsInNewWindow = (archiveId) => {
     // Get the URLs, using the first to launch the window, then remove it from the list
     var archive = storage.getArchiveById(archiveId);
@@ -29,3 +36,4 @@ function createTabs (windowId, urls) {
 }
 
 exports.createTabsInNewWindow = createTabsInNewWindow;
+exports.saveTabsInCurrentWindow = saveTabsInCurrentWindow;

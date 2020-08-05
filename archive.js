@@ -1,12 +1,10 @@
 const createDom = require('./src/create-dom');
 const storage = require('./src/storage');
+const chromeUtils = require('./src/chrome-utils');
 
 // Query for the tabs on the current window, and save the resulting list
 function onSaveArchive () {
-    var queryInfo = {
-        currentWindow: true
-    }
-    chrome.tabs.query(queryInfo, storage.saveTabList);
+    chromeUtils.saveTabsInCurrentWindow();
 }
 
 function loadArchives () {

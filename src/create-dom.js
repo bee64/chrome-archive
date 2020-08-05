@@ -1,4 +1,5 @@
 var chromeUtils = require('./chrome-utils');
+var storage = require('./storage');
 
 /**
  * Archive block should look like this
@@ -24,7 +25,8 @@ var chromeUtils = require('./chrome-utils');
  */
 const addArchiveToDom = (archive, isEven) => {
     var archiveListItem = document.createElement('div');
-    archiveListItem.classList.add('archiveListItem');
+    archiveListItem.classList.add('archive-list-item');
+    archiveListItem.id = archive.id;
 
     if (isEven) {
         archiveListItem.classList.add('even');
@@ -34,8 +36,9 @@ const addArchiveToDom = (archive, isEven) => {
     archiveInfo.classList.add('archiveInfo');
 
     var header = document.createElement('h2');
-    header.classList.add('archiveListItem--header');
+    header.classList.add('archive-list-item--header');
     var headerLink = document.createElement('a');
+    headerLink.classList.add('archive-header-link');
     headerLink.href = '#';
     headerLink.appendChild(document.createTextNode(archive.name));
     header.appendChild(headerLink);
@@ -44,7 +47,7 @@ const addArchiveToDom = (archive, isEven) => {
     });
 
     var numItems = document.createElement('p');
-    numItems.classList.add('archiveListItem--item-count');
+    numItems.classList.add('archive-list-item--item-count');
     numItems.appendChild(document.createTextNode(archive.tabs.length + ' Tabs'));
     var titlesString = getTitlesString(archive);
     numItems.title = titlesString;
@@ -54,9 +57,37 @@ const addArchiveToDom = (archive, isEven) => {
 
     archiveListItem.appendChild(archiveInfo);
 
-    // TODO Add the controls
+    var archiveActions = document.createElement('div');
+    archiveActions.classList.add('archive-list-item--archive-actions');
+
+    var deleteButton = document.createElement('div');
+    deleteButton.innerHTML = '<svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-trash" width="28" height="28" viewBox="0 0 24 24" stroke-width="1.5" stroke="#B191FF" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z"/><line x1="4" y1="7" x2="20" y2="7" /><line x1="10" y1="11" x2="10" y2="17" /><line x1="14" y1="11" x2="14" y2="17" /><path d="M5 7l1 12a2 2 0 0 0 2 2h8a2 2 0 0 0 2 -2l1 -12" /><path d="M9 7v-3a1 1 0 0 1 1 -1h4a1 1 0 0 1 1 1v3" /></svg>';
+    deleteButton.addEventListener('click', () => {
+        deleteWithConfirmation(archive);
+    });
+    
+    archiveActions.appendChild(deleteButton);
+    archiveListItem.appendChild(archiveActions);
+
+    // TODO Launch Button & Edit button? (Edit for removing 1 item from an archive)
 
     getListRootElement().appendChild(archiveListItem);
+}
+
+function deleteWithConfirmation (archive) {
+    var response  = window.confirm('Are you sure you want to delete ' + archive.name + '?');
+    if (response) {
+        storage.deleteArchive(archive.id);
+        removeArchiveFromDom(archive.id);
+        // TODO, reset "even"-s?
+    } else {
+        // do nothing
+    }
+}
+
+function removeArchiveFromDom (archiveId) {
+    var archiveListItem = document.getElementById(archiveId);
+    archiveListItem.parentNode.removeChild(archiveListItem);
 }
 
 function getTitlesString (archive) {

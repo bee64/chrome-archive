@@ -1,6 +1,5 @@
 const { v4: uuidv4 } = require('uuid');
 var createDom = require('./create-dom');
-var chromeUtils = require('./chrome-utils');
 
 var ARCHIVE_ID_LIST_KEY = 'archive-id-list';
 
@@ -11,9 +10,6 @@ const saveTabList = (tabList) => {
     var numArchives = getArchiveIds().length;
     var isNextEven = numArchives === 0 || numArchives % 2 === 0;
     saveArchive(archive);
-    // TODO delete button
-    //      Should the delete button say "are you sure" or something?
-    //      If I can do the "are you sure" popup I can probably do the "show you a list and let you remove individual items"
     createDom.addArchiveToDom(archive, isNextEven);
 }
 
@@ -65,6 +61,18 @@ function addIdToList (id) {
     setArchiveIds(ids);
 }
 
+const deleteArchive = (id) => {
+    localStorage.removeItem(id);
+    removeArchiveIdFromList(id);
+}
+
+function removeArchiveIdFromList (id) {
+    var ids = getArchiveIds();
+    ids = ids.filter(item => item !== id);
+    setArchiveIds(ids);
+}
+
 exports.saveTabList = saveTabList;
 exports.getArchiveById = getArchiveById;
-exports.getArchiveIds =getArchiveIds;
+exports.getArchiveIds = getArchiveIds;
+exports.deleteArchive = deleteArchive;
