@@ -16,8 +16,7 @@
         "default_title": "Does a thing",
         "default_popup": "popup.html",
         "default_icon": {
-            "16": "icons/leek16.ico",
-            "32": "icons/leek32.ico"
+            "16": "icons/leek.jpg"
         }
     }
 }

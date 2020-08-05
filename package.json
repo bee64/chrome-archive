@@ -3,9 +3,10 @@
   "version": "1.0.0",
   "description": "chrome tab archiver",
   "scripts": {
-    "build": "npm run build:js && npm run copy",
+    "build": "npm run build:js && npm run build:copy",
     "build:js": "browserify archive.js -o dist/archive.browserify.js",
-    "copy": "copyfiles ./icons/* manifest.json archive.css reset.css popup.html ./dist"
+    "build:copy": "copyfiles ./icons/* manifest.json archive.css reset.css popup.html ./dist",
+    "build:uglify": "uglifyjs --compress --mangle -- dist/archive.browserify.js"
   },
   "repository": {
     "type": "git",
@@ -14,7 +15,8 @@
   "license": "ISC",
   "devDependencies": {
     "browserify": "^16.5.1",
-    "copyfiles": "^2.3.0"
+    "copyfiles": "^2.3.0",
+    "uglify-js": "^3.10.1"
   },
   "dependencies": {
     "uuid": "^8.3.0"
