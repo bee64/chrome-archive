@@ -26,11 +26,21 @@ function createArchive (name, tabList) {
             // Tab names can be empty, but it's unuseable without a url
             return tab.url !== '';
         });
+
+    if (!name) {
+        name = getFallbackArchiveName();
+    }
+
     return {
         id: uuidv4(),
         name: name,
         tabs: tabs
     };
+}
+
+function getFallbackArchiveName () {
+    var num = getArchiveIds().length + 1;
+    return "Archive " + num;
 }
 
 function getNewArchiveName () {
