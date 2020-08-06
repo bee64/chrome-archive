@@ -60,15 +60,18 @@ const getArchiveById = (id) => {
     return JSON.parse(localStorage.getItem(id));
 }
 
-function saveArchive(archive) {
+const saveArchive = (archive) => {
     localStorage.setItem(archive.id, JSON.stringify(archive));
     addIdToList(archive.id);
 }
 
 function addIdToList (id) {
     var ids = getArchiveIds();
-    ids.push(id);
-    setArchiveIds(ids);
+    console.log(ids);
+    if (!ids.includes(id)) {
+        ids.push(id);
+        setArchiveIds(ids);
+    }
 }
 
 const deleteArchive = (id) => {
@@ -86,3 +89,4 @@ exports.saveTabList = saveTabList;
 exports.getArchiveById = getArchiveById;
 exports.getArchiveIds = getArchiveIds;
 exports.deleteArchive = deleteArchive;
+exports.saveArchive = saveArchive;

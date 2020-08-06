@@ -36,17 +36,7 @@ const addArchiveToDom = (archive, isEven) => {
     var archiveInfo = document.createElement('div');
     archiveInfo.classList.add('archiveInfo');
 
-    // Create header element
-    var header = document.createElement('h2');
-    header.classList.add('archive-list-item--header');
-    var headerLink = document.createElement('a');
-    headerLink.classList.add('archive-header-link');
-    headerLink.href = '#';
-    headerLink.appendChild(document.createTextNode(archive.name));
-    header.appendChild(headerLink);
-    header.addEventListener('click', () => {
-        chromeUtils.createTabsInNewWindow(archive.id);
-    });
+    var header = createHeaderElement(archive);
 
     // Create number of items element
     var numItems = document.createElement('p');
@@ -72,13 +62,34 @@ const addArchiveToDom = (archive, isEven) => {
     deleteButton.addEventListener('click', () => {
         deleteWithConfirmation(archive);
     });
-    
+
+    var editButton = document.createElement('div');
+    editButton.classList.add('archive-edit-button');
+    // Add edit icon
+    editButton.innerHTML = '<svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-edit" width="28" height="28" viewBox="0 0 24 24" stroke-width="1.5" stroke="#B191FF" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z"/><path d="M9 7 h-3a2 2 0 0 0 -2 2v9a2 2 0 0 0 2 2h9a2 2 0 0 0 2 -2v-3" /><path d="M9 15h3l8.5 -8.5a1.5 1.5 0 0 0 -3 -3l-8.5 8.5v3" /><line x1="16" y1="5" x2="19" y2="8" /></svg>';
+    editButton.addEventListener('click', () => {
+        replaceHeaderWithEditElement(archive);
+    });
+
+    archiveActions.appendChild(editButton);
     archiveActions.appendChild(deleteButton);
     archiveListItem.appendChild(archiveActions);
 
-    // TODO Launch Button & Edit button? (Edit for removing 1 item from an archive)
-
     getListRootElement().appendChild(archiveListItem);
+}
+
+function createHeaderElement (archive) {
+    var header = document.createElement('h2');
+    header.classList.add('archive-list-item--header');
+    var headerLink = document.createElement('a');
+    headerLink.classList.add('archive-header-link');
+    headerLink.href = '#';
+    headerLink.appendChild(document.createTextNode(archive.name));
+    header.appendChild(headerLink);
+    header.addEventListener('click', () => {
+        chromeUtils.createTabsInNewWindow(archive.id);
+    });
+    return header;
 }
 
 function deleteWithConfirmation (archive) {
@@ -86,10 +97,61 @@ function deleteWithConfirmation (archive) {
     if (response) {
         storage.deleteArchive(archive.id);
         removeArchiveFromDom(archive.id);
-        // TODO, reset "even"-s?
+        // TODO, reset "even"?
     } else {
         // do nothing
     }
+}
+
+function replaceHeaderWithEditElement (archive) {
+    var editElement = createEditDomElement(archive);
+
+    var archiveElement = document.getElementById(archive.id);
+    var headerContainer = archiveElement.children[0];
+    var headerElement = headerContainer.children[0];
+
+    headerContainer.removeChild(headerElement);
+    // add as first child
+    headerContainer.insertBefore(editElement, headerContainer.firstChild);
+}
+
+function replaceEditWithHeaderElement (archive) {
+    var headerElement = createHeaderElement(archive);
+
+    var archiveElement = document.getElementById(archive.id);
+    var editContainer = archiveElement.children[0]
+    var editElement = editContainer.children[0];
+
+    editContainer.removeChild(editElement);
+    editContainer.insertBefore(headerElement, editContainer.firstChild);
+}
+
+function createEditDomElement (archive) {
+    var editHeader = document.createElement('input');
+    editHeader.setAttribute('type', 'text');
+    editHeader.id = 'archive-name--edit'
+    editHeader.classList.add('archive-name--edit');
+    editHeader.name = 'Edit archive name';
+    editHeader.value = archive.name;
+    editHeader.addEventListener('keypress', (e) => {
+        if (e.key === 'Enter') {
+            onEditSave(archive);
+        }
+    });
+    return editHeader;
+}
+
+function onEditSave (archive) {
+    archive = updateArchive(archive);
+    replaceEditWithHeaderElement(archive);
+}
+
+function updateArchive (archive) {
+    var newName = document.getElementById('archive-name--edit').value;
+    var updatedArchive = storage.getArchiveById(archive.id);
+    updatedArchive.name = newName;
+    storage.saveArchive(updatedArchive);
+    return updatedArchive;
 }
 
 function removeArchiveFromDom (archiveId) {

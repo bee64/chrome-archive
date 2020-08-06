@@ -2,9 +2,8 @@
 A Chrome extension to help you manage your tabs!
 
 ## TODO
-* Edit Name
-* Add individual tab to existing entries
-* Remove individual tab from an existing entry
+* Add individual tab to existing archive
+* Remove individual tab from an existing archive
 * Save current open tabs as an existing archive
 * Animations
 
