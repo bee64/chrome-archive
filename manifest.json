@@ -1,8 +1,8 @@
 {
     "manifest_version": 2,
     "name": "Archive",
-    "version": "0.0.2",
-    "description": "A chrome tab management extension",
+    "version": "1.0.0",
+    "description": "Save your tabs for easy opening later.",
     "short_name": "Archive",
     "permissions": ["storage", "tabs"],
     "content_scripts": [
@@ -13,7 +13,7 @@
         }
     ],
     "browser_action": {
-        "default_title": "Does a thing",
+        "default_title": "Archive - Tab Saver",
         "default_popup": "popup.html",
         "default_icon": {
             "16": "icons/icon16.png",

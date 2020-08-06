@@ -2,8 +2,6 @@
 A Chrome extension to help you manage your tabs!
 
 ## TODO
-* Add Icon
-* Hover styles for trash can icon
 * Don't allow save w/o name
 * Animations
 * Add individual tab to existing entries
